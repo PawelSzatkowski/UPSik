@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UPSik", "UPSik\UPSik.csproj", "{D3D9C47E-203B-4224-ACF5-24E4F2262150}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UPSik.BusinessLayer", "UPSik.BusinessLayer\UPSik.BusinessLayer.csproj", "{92CF76F8-38F5-4B4B-8772-7B1A231E889D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UPSik.DataLayer", "UPSik.DataLayer\UPSik.DataLayer.csproj", "{3BB7575B-5645-4E61-B1AF-873E5AA9F3C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UPSik.Tests", "UPSik.Tests\UPSik.Tests.csproj", "{EE3252FA-CD13-454C-BC2D-81805E12E5AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UPSik.NotificationsSender", "UPSik.NotificationsSender\UPSik.NotificationsSender.csproj", "{8E3C47BE-3D9B-4CCC-8C13-6C46038E8730}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UPSik.WebApi", "UPSik.WebApi\UPSik.WebApi.csproj", "{805D7E3F-DBA1-44BF-B89A-58272ACAAFEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UPSik.DriverClient", "UPSik.DriverClient\UPSik.DriverClient.csproj", "{F70883D2-33A1-477D-BD00-E6D3D443F280}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3D9C47E-203B-4224-ACF5-24E4F2262150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D9C47E-203B-4224-ACF5-24E4F2262150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D9C47E-203B-4224-ACF5-24E4F2262150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D9C47E-203B-4224-ACF5-24E4F2262150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92CF76F8-38F5-4B4B-8772-7B1A231E889D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92CF76F8-38F5-4B4B-8772-7B1A231E889D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92CF76F8-38F5-4B4B-8772-7B1A231E889D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92CF76F8-38F5-4B4B-8772-7B1A231E889D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BB7575B-5645-4E61-B1AF-873E5AA9F3C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BB7575B-5645-4E61-B1AF-873E5AA9F3C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BB7575B-5645-4E61-B1AF-873E5AA9F3C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BB7575B-5645-4E61-B1AF-873E5AA9F3C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE3252FA-CD13-454C-BC2D-81805E12E5AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE3252FA-CD13-454C-BC2D-81805E12E5AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE3252FA-CD13-454C-BC2D-81805E12E5AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE3252FA-CD13-454C-BC2D-81805E12E5AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E3C47BE-3D9B-4CCC-8C13-6C46038E8730}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E3C47BE-3D9B-4CCC-8C13-6C46038E8730}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E3C47BE-3D9B-4CCC-8C13-6C46038E8730}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E3C47BE-3D9B-4CCC-8C13-6C46038E8730}.Release|Any CPU.Build.0 = Release|Any CPU
+		{805D7E3F-DBA1-44BF-B89A-58272ACAAFEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{805D7E3F-DBA1-44BF-B89A-58272ACAAFEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{805D7E3F-DBA1-44BF-B89A-58272ACAAFEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{805D7E3F-DBA1-44BF-B89A-58272ACAAFEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F70883D2-33A1-477D-BD00-E6D3D443F280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F70883D2-33A1-477D-BD00-E6D3D443F280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F70883D2-33A1-477D-BD00-E6D3D443F280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F70883D2-33A1-477D-BD00-E6D3D443F280}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6F9185C-A7D0-43B6-9FC4-26FAF90EB743}
+	EndGlobalSection
+EndGlobal
