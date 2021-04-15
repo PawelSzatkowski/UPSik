@@ -16,10 +16,11 @@ namespace UPSik.BusinessLayer
         bool CheckIfCourierAlreadyHaveACar(User driver);
         bool CheckIfThereIsAtLeasOneCourierVehicle();
         void ClearCouriersPackingLists();
-        Vehicle GetCourierVehicle(Vehicle courierVehicle);
+        Vehicle GetCourierVehicle(int courierId);
         Task<List<Package>> GetLatestCourierPackingListAsync(int id);
         int GetVehicleCurrentLoad(Vehicle courierVehicle);
         List<Vehicle> GetVehiclesList();
+        int GetVehicleAverageVelocity(int id);
     }
 
     public class VehicleService : IVehicleService
@@ -32,13 +33,14 @@ namespace UPSik.BusinessLayer
             _dbContextFactoryMethod = dbContextFactoryMethod;
         }
 
-        public Vehicle GetCourierVehicle(Vehicle courierVehicle)
+        public Vehicle GetCourierVehicle(int courierId)
         {
             using (var context = _dbContextFactoryMethod())
             {
                 return context.Vehicles
                     .Include(x => x.CourierPackingList)
-                    .FirstOrDefault(x => x.RegistrationNumber == courierVehicle.RegistrationNumber);
+                    .Include(x => x.Driver)
+                    .FirstOrDefault(x => x.Driver.Id == courierId);
             }
         }
 
@@ -136,7 +138,7 @@ namespace UPSik.BusinessLayer
             var fileData = await packingListsDirectory.GetFiles()
                 .Where(x => x.Name.StartsWith($"{id}_"))
                 .OrderByDescending(f => f.LastWriteTime)
-                .AsQueryable()
+                .ToAsyncEnumerable()
                 .FirstOrDefaultAsync();
 
             if (fileData == null)
@@ -148,6 +150,16 @@ namespace UPSik.BusinessLayer
             var packingList = JsonConvert.DeserializeObject<List<Package>>(jsonData);
 
             return packingList;
+        }
+
+        public int GetVehicleAverageVelocity(int id)
+        {
+            using (var context = _dbContextFactoryMethod())
+            {
+                return context.Vehicles
+                    .FirstOrDefault(x => x.Driver.Id == id)
+                    .AverageVelocity;
+            }
         }
     }
 }

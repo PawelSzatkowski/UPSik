@@ -10,6 +10,7 @@ namespace UPSik.Tests
         public DbSet<Package> Packages { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<PackingListInfo> PackingListsInfo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

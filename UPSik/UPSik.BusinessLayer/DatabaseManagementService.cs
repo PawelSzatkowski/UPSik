@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using UPSik.DataLayer;
 
 namespace UPSik.BusinessLayer
 {
     public interface IDatabaseManagementService
     {
-        void EnsureDatabaseCreation();
+        void EnsureDatabaseMigration();
     }
 
     public class DatabaseManagementService : IDatabaseManagementService
@@ -16,11 +17,11 @@ namespace UPSik.BusinessLayer
         {
             _UPSikDbContextFactoryMethod = UPSikDbContextFactoryMethod;
         }
-        public void EnsureDatabaseCreation()
+        public void EnsureDatabaseMigration()
         {
             using (var context = _UPSikDbContextFactoryMethod())
             {
-                context.Database.EnsureCreated();
+                context.Database.Migrate();
             }
         }
     }

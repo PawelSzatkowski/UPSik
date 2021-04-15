@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UPSik.DataLayer;
 
 namespace UPSik.DataLayer.Migrations
 {
     [DbContext(typeof(UPSikDbContext))]
-    partial class UPSikDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210322112918_AddedPackingListInfosAndCourierRatings")]
+    partial class AddedPackingListInfosAndCourierRatings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

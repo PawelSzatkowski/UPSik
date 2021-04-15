@@ -19,5 +19,6 @@ namespace UPSik.DataLayer.Models
         public string Email { get; set; }
         public Address Address { get; set; }
         public UserType Type { get; set; }
+        public float CourierRating { get; set; }
     }
 }

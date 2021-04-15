@@ -17,6 +17,7 @@ namespace UPSik
         User.UserType GetUserTypeFromUser(string message);
         User GetVehicleDriver();
         bool CheckEmailFormat(string email);
+        void PrintCouriers();
     }
 
     public class IoHelper : IIoHelper
@@ -217,6 +218,16 @@ namespace UPSik
             while (registrationNumber.Length > 8);
 
             return registrationNumber;
+        }
+
+        public void PrintCouriers()
+        {
+            var couriers = _userService.GetCouriersList();
+
+            foreach (var courier in couriers)
+            {
+                Console.WriteLine("\n" + $"{courier.Id} {courier.Name} {courier.Surname}");
+            }
         }
     }
 }

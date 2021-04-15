@@ -13,6 +13,7 @@ namespace UPSik.DataLayer
         DbSet<Package> Packages { get; set; }
         DbSet<User> Users { get; set; }
         DbSet<Vehicle> Vehicles { get; set; }
+        DbSet<PackingListInfo> PackingListsInfo { get; set; }
         DatabaseFacade Database { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         int SaveChanges();
@@ -24,6 +25,7 @@ namespace UPSik.DataLayer
         public DbSet<Package> Packages { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<PackingListInfo> PackingListsInfo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

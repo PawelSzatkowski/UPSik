@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UPSik.BusinessLayer;
 using UPSik.DataLayer.Models;
@@ -10,7 +11,8 @@ namespace UPSik.WebApi.Controllers
     {
         private readonly IPackageService _packageService;
 
-        public PackagesController(IPackageService packageService)
+        public PackagesController(
+            IPackageService packageService)
         {
             _packageService = packageService;
         }
@@ -19,6 +21,13 @@ namespace UPSik.WebApi.Controllers
         public async Task PostPackage([FromBody] Package package)
         {
             await _packageService.AddNewPackageAsync(package);
+        }
+
+        [HttpGet("deliver_package")]
+        public int GetPackageDeliveryRating([FromQuery] int packageId, [FromQuery] string etaToReceiver, [FromQuery] string deliveryDate)
+        {
+            var rating = _packageService.DeliverPackage(packageId, deliveryDate, etaToReceiver);
+            return rating;
         }
     }
 }

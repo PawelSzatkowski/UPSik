@@ -13,13 +13,15 @@ namespace UPSik.BusinessLayer
     {
         Task AddNewPackageAsync(Package newPackage);
         void AddPackageToVehiclePackingList(Package package, Vehicle courierVehicle);
-        List<Package> GetPackagesForCourierPackingList(User courier);
-        void UpdatePackage(Package package);
         void ChangeAddedToPackingListPackagesStateToShipping();
+        void ChangePackagesState(List<Package> packages, Package.PackageState packageState);
         void ChangeShippingPackagesStateToAwaitingPickup(List<Package> courierPackingList);
-        void ChangePackagesStateFromAwaitingPickupToDelivered(List<Package> courierPackingList);
-        List<Package> GetPackagesByPriority(Package.PackagePriority packagePriority);
+        int DeliverPackage(int packageId, string delivery, string etaToReceiver);
         Package GetPackageByNumber(Package package);
+        List<Package> GetPackagesByPriority(Package.PackagePriority packagePriority);
+        List<Package> GetPackagesForCourierPackingList(User courier);
+        void ManageUndeliveredPackages(List<Package> courierPackingList);
+        void UpdatePackage(Package package);
     }
 
     public class PackageService : IPackageService
@@ -67,6 +69,7 @@ namespace UPSik.BusinessLayer
             {
 
                 context.Users.Attach(newPackage.Sender);
+                context.Users.Attach(newPackage.Receiver);
                 context.Packages.Add(newPackage);
                 await context.SaveChangesAsync();
             }
@@ -83,6 +86,8 @@ namespace UPSik.BusinessLayer
                     .Include(x => x.CourierPackingList)
                         .ThenInclude(x => x.Sender)
                             .ThenInclude(x => x.Address)
+                    .Include(x => x.Driver)
+                        .ThenInclude(x => x.Address)
                     .FirstOrDefault(x => x.Driver.Id == courier.Id);
 
                 return vehicle.CourierPackingList;
@@ -94,7 +99,7 @@ namespace UPSik.BusinessLayer
             if (courierVehicle != null)
             {
                 using (var context = _dbContextFactoryMethod())
-                { 
+                {
                     courierVehicle.CourierPackingList.Add(package);
                     courierVehicle.CurrentLoad += (int)package.Weight;
 
@@ -122,12 +127,7 @@ namespace UPSik.BusinessLayer
                     .Where(x => x.State == Package.PackageState.AddedToPackingList)
                     .ToList();
 
-                foreach (var package in packages)
-                {
-                    package.State = Package.PackageState.Shipping;
-                    context.Packages.Update(package);
-                }
-                context.SaveChanges();
+                ChangePackagesState(packages, Package.PackageState.Shipping);
             }
         }
 
@@ -140,22 +140,64 @@ namespace UPSik.BusinessLayer
                     .Where(x => x.State == Package.PackageState.Shipping && courierPackingList.Contains(x))
                     .ToList();
 
-                foreach (var package in packages)
-                {
-                    package.State = Package.PackageState.AwaitingPickup;
-                    context.Packages.Update(package);
-                }
-                context.SaveChanges();
+                ChangePackagesState(packages, Package.PackageState.AwaitingPickup);
             }
         }
 
-        public void ChangePackagesStateFromAwaitingPickupToDelivered(List<Package> courierPackingList)
+        public int DeliverPackage(int packageId, string delivery, string etaToReceiver)
+        {
+            var deliveryDate = DateTime.Parse(delivery);
+            var etaToReceiverDate = DateTime.Parse(etaToReceiver);
+
+            using (var context = _dbContextFactoryMethod())
+            {
+                var package = context.Packages
+                    .FirstOrDefault(x => x.Id == packageId && x.State != Package.PackageState.Delivered);
+
+                if (package == null)
+                {
+                    return 0;
+                }
+
+                package.State = Package.PackageState.Delivered;
+                package.CourierRatingForDelivery = CalculateCourierRatingForDelivery(deliveryDate, etaToReceiverDate);
+
+                context.Packages.Update(package);
+                context.SaveChanges();
+
+                return package.CourierRatingForDelivery;
+            }
+        }
+
+        private int CalculateCourierRatingForDelivery(DateTime deliveryDate, DateTime etaToReceiver)
+        {
+            var maxScore = 5;
+
+            var pointsSubstracted = Convert.ToInt32(Math.Floor(Math.Abs((deliveryDate - etaToReceiver).TotalMinutes / 10)));
+
+            return maxScore - pointsSubstracted;
+        }
+
+        public void ManageUndeliveredPackages(List<Package> courierPackingList)
         {
             using (var context = _dbContextFactoryMethod())
             {
-                foreach (var package in courierPackingList)
+                var undeliveredPackages = context.Packages
+                    .AsQueryable()
+                    .Where(x => x.State != Package.PackageState.Delivered && courierPackingList.Contains(x))
+                    .ToList();
+
+                ChangePackagesState(undeliveredPackages, Package.PackageState.AwaitingAddingToPackingList);
+            }
+        }
+
+        public void ChangePackagesState(List<Package> packages, Package.PackageState packageState)
+        {
+            using (var context = _dbContextFactoryMethod())
+            {
+                foreach (var package in packages)
                 {
-                    package.State = Package.PackageState.Delivered;
+                    package.State = packageState;
                     context.Packages.Update(package);
                 }
                 context.SaveChanges();
