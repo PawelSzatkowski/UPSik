@@ -519,13 +519,20 @@ namespace UPSik.Tests.BussinessLayer
 
             var sut = new PackingListService(
                 new VehicleService(_contextFactoryMethod),
-                new PackageService(_contextFactoryMethod, new Mock<ITimeCalculator>().Object),
+                new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object),
                 new Mock<IUserService>().Object,
                 new Mock<ITimeCalculator>().Object,
                 new Mock<Func<IUPSikDbContext>>().Object,
                 new PackageDeliveryConfigValues(),
                 new GeoMapService(),
-                new ShippingPlannerService(_contextFactoryMethod, new GeoMapService()));
+                new ShippingPlannerService(
+                    _contextFactoryMethod,
+                    new GeoMapService(),
+                    new PackageDeliveryConfigValues(), new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object)));
 
 
             sut.AddPackagesToPackingList(packages, vehicles);
@@ -573,16 +580,22 @@ namespace UPSik.Tests.BussinessLayer
                     .ToList();
             }
 
-
             var sut = new PackingListService(
                 new VehicleService(_contextFactoryMethod),
-                new PackageService(_contextFactoryMethod, new Mock<ITimeCalculator>().Object),
+                new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object),
                 new Mock<IUserService>().Object,
                 new Mock<ITimeCalculator>().Object,
                 new Mock<Func<IUPSikDbContext>>().Object,
                 new PackageDeliveryConfigValues(),
                 new GeoMapService(),
-                new ShippingPlannerService(_contextFactoryMethod, new GeoMapService()));
+                new ShippingPlannerService(
+                    _contextFactoryMethod,
+                    new GeoMapService(),
+                    new PackageDeliveryConfigValues(), new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object)));
 
             sut.AddPackagesToPackingList(packages, vehicles);
 
@@ -637,13 +650,20 @@ namespace UPSik.Tests.BussinessLayer
 
             var sut = new PackingListService(
                 new VehicleService(_contextFactoryMethod),
-                new PackageService(_contextFactoryMethod, new Mock<ITimeCalculator>().Object),
+                new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object),
                 new Mock<IUserService>().Object,
                 new Mock<ITimeCalculator>().Object,
                 new Mock<Func<IUPSikDbContext>>().Object,
                 new PackageDeliveryConfigValues(),
                 new GeoMapService(),
-                new ShippingPlannerService(_contextFactoryMethod, new GeoMapService()));
+                new ShippingPlannerService(
+                    _contextFactoryMethod,
+                    new GeoMapService(),
+                    new PackageDeliveryConfigValues(), new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object)));
 
             sut.AddPackagesToPackingList(packages, vehicles);
 
@@ -700,16 +720,22 @@ namespace UPSik.Tests.BussinessLayer
                 vehicles = vehiclesToSort.OrderBy(x => x.Id).ToList();
             }
 
-
             var sut = new PackingListService(
                 new VehicleService(_contextFactoryMethod),
-                new PackageService(_contextFactoryMethod, new Mock<ITimeCalculator>().Object),
+                new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object),
                 new Mock<IUserService>().Object,
                 new Mock<ITimeCalculator>().Object,
                 new Mock<Func<IUPSikDbContext>>().Object,
                 new PackageDeliveryConfigValues(),
                 new GeoMapService(),
-                new ShippingPlannerService(_contextFactoryMethod, new GeoMapService()));
+                new ShippingPlannerService(
+                    _contextFactoryMethod,
+                    new GeoMapService(),
+                    new PackageDeliveryConfigValues(), new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object)));
 
             sut.AddPackagesToPackingList(packages, vehicles);
 
@@ -769,13 +795,20 @@ namespace UPSik.Tests.BussinessLayer
 
             var sut = new PackingListService(
                 new VehicleService(_contextFactoryMethod),
-                new PackageService(_contextFactoryMethod, new Mock<ITimeCalculator>().Object),
+                new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object),
                 new Mock<IUserService>().Object,
                 new Mock<ITimeCalculator>().Object,
                 new Mock<Func<IUPSikDbContext>>().Object,
                 new PackageDeliveryConfigValues(),
                 new GeoMapService(),
-                new ShippingPlannerService(_contextFactoryMethod, new GeoMapService()));
+                new ShippingPlannerService(
+                    _contextFactoryMethod,
+                    new GeoMapService(),
+                    new PackageDeliveryConfigValues(), new PackageService(
+                    _contextFactoryMethod,
+                    new Mock<ITimeCalculator>().Object)));
 
             sut.AddPackagesToPackingList(packages, vehicles);
 

@@ -34,5 +34,10 @@ namespace UPSik.DriverClient.Models
         public DateTime DateOfAdding { get; set; }
         public PackageState State { get; set; }
         public PackagePriority Priority { get; set; }
+        public double SenderDistanceFromPreviousPoint { get; set; }
+        public double ReceiverDistanceFromPreviousPoint { get; set; }
+        public DateTime EtaToSender { get; set; }
+        public DateTime EtaToReceiver { get; set; }
+        public int CourierRatingForDelivery { get; set; }
     }
 }

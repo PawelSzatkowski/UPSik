@@ -17,11 +17,13 @@ namespace UPSik
         private readonly ITimersHandler _timersHandler;
         private readonly ITimeCalculator _timeCalculator;
 
+        private readonly IPackingListService _packingListService;
+
         static void Main(string[] args)
         {
             var container = new UnityDiContainerProvider().GetContainer();
 
-                container.Resolve<Program>().Run();
+            container.Resolve<Program>().Run();
         }
 
         public Program(
@@ -32,7 +34,9 @@ namespace UPSik
             IPackageService packageService,
             IVehicleService vehicleService,
             ITimersHandler timeHandler,
-            ITimeCalculator timeCalculator)
+            ITimeCalculator timeCalculator,
+            
+            IPackingListService packingListService)
         {
             _mainMenu = mainMenu;
             _ioHelper = ioHelper;
@@ -41,15 +45,17 @@ namespace UPSik
             _packageService = packageService;
             _vehicleService = vehicleService;
             _timersHandler = timeHandler;
-            _timeCalculator= timeCalculator;
+            _timeCalculator = timeCalculator;
+
+            _packingListService = packingListService;
         }
-            
+
 
         void Run()
         {
             _timersHandler.SetTimers();
 
-            _databaseManagementService.EnsureDatabaseCreation();
+            _databaseManagementService.EnsureDatabaseMigration();
             RegisterMainMenuOptions();
 
             Console.WriteLine("Welcome to UPSik app - the best, and only app for the best (and only) shipping company in the world - UPSik!");
@@ -75,12 +81,20 @@ namespace UPSik
             _mainMenu.AddOption(new MenuItem { Key = 3, Action = AddNewCourierVehicle, Description = "Add new vehicle to system" });
             _mainMenu.AddOption(new MenuItem { Key = 4, Action = ExitApp, Description = "Exit app" });
             _mainMenu.AddOption(new MenuItem { Key = 5, Action = GetCurrentDate, Description = "Get current date" });
+            _mainMenu.AddOption(new MenuItem { Key = 6, Action = ShowSpecificCourierRatings, Description = "Show specific courier ratings" });
+
+            _mainMenu.AddOption(new MenuItem { Key = 6, Action = GeneratePackingList, Description = "paking list" });
+        }
+
+        private void GeneratePackingList()
+        {
+            _packingListService.GeneratePackingLists();
         }
 
         private void GetCurrentDate()
         {
             Console.WriteLine($"Current real time: {_timeCalculator.GetCurrentRealTime()}");
-            Console.WriteLine($"Current warped time: {_timeCalculator.GetCurrentWarpedTime()}"); 
+            Console.WriteLine($"Current warped time: {_timeCalculator.GetCurrentWarpedTime()}");
         }
 
         private void AddNewUser()
@@ -110,7 +124,7 @@ namespace UPSik
                 Address = newUserAddress,
                 Type = newUserType,
             };
-            
+
             if (newUser.Type == User.UserType.Courier)
             {
                 newUser.Password = _ioHelper.GetTextFromUser("Enter user's password");
@@ -128,7 +142,7 @@ namespace UPSik
                 Console.WriteLine("\n" + "Database empty - there are no possible senders!" + "\n");
                 return;
             }
-            
+
             if (!_vehicleService.CheckIfThereIsAtLeasOneCourierVehicle())
             {
                 Console.WriteLine("\n" + "There are no courier vehicles added to the system!" + "\n");
@@ -139,7 +153,7 @@ namespace UPSik
 
             var newPackage = new Package();
             var senderEmail = _ioHelper.GetTextFromUser("Enter sender's email");
-            
+
             if (!_userService.CheckIfSenderIsInDatabase(senderEmail))
             {
                 Console.WriteLine("Sender is not in database!");
@@ -152,7 +166,7 @@ namespace UPSik
             {
                 return;
             }
-            
+
             newPackage.Weight = _ioHelper.GetPackageWeight();
 
             _packageService.AddNewPackageAsync(newPackage).Wait();
@@ -205,6 +219,23 @@ namespace UPSik
             else
             {
                 Console.WriteLine("\n" + "There has been an error while trying to add a vehicle");
+            }
+        }
+
+        private void ShowSpecificCourierRatings()
+        {
+            _ioHelper.PrintCouriers();
+
+            int userChoice = _ioHelper.GetIntFromUser("Select courier id");
+
+            var packingListsInfos = _packingListService.GetCourierPackingListInfos(userChoice);
+
+            int i = 1;
+
+            foreach (var packingListInfo in packingListsInfos)
+            {
+                Console.WriteLine("\n" + $"{i}. {packingListInfo.FileName} Courier rating: {packingListInfo.CourierRating}");
+                i++;
             }
         }
 

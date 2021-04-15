@@ -128,6 +128,7 @@ namespace UPSik.BusinessLayer
                 return context.Users
                     .AsQueryable()
                     .Where(x => x.Type == User.UserType.Courier)
+                    .Include(x => x.Address)
                     .ToList();
             }
         }

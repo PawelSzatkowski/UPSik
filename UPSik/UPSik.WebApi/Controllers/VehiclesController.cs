@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UPSik.BusinessLayer;
 using UPSik.DataLayer.Models;
@@ -17,15 +16,16 @@ namespace UPSik.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task PostVehicle([FromBody] Vehicle vehicle)
+        public void PostVehicle([FromBody] Vehicle vehicle)
         {
-            await _vehiclesService.AddNewVehicleAsync(vehicle);
+            _vehiclesService.AddNewVehicleAsync(vehicle);
         }
 
         [HttpGet("{id}")]
-        public async Task<List<Package>> GetPackages(int id)
+        public int GetVehicleSpeed(int id)
         {
-            return await _vehiclesService.GetLatestCourierPackingListAsync(id);
+            var vehicleAverageSpeed = _vehiclesService.GetVehicleAverageVelocity(id);
+            return vehicleAverageSpeed; 
         }
     }
 }

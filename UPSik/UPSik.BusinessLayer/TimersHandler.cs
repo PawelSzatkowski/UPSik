@@ -109,8 +109,10 @@ namespace UPSik
 
             foreach (var vehicle in vehicles)
             {
-                if (vehicle.CourierPackingList.Count != 0)
+                if (vehicle.CourierPackingList.Count != 0 && !_packingListService.CheckIfPackingListIsManuallyManaged(vehicle.Driver.Id))
                 {
+                    _packingListService.SwitchPackingListToAlreadyBeingManaged(vehicle.Driver.Id);
+
                     var endWorkTimer = new Timer();
                     endWorkTimer.Interval = CalculateWarpedTimeUntilEndOfWorkingDay(vehicle);
                     endWorkTimer.AutoReset = false;

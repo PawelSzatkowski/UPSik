@@ -32,7 +32,7 @@ namespace UPSik.NotificationsSender
             }
         }
 
-        private async static Task EventArrived( // DO POPRAWY ŻEBY BYŁO ASYNC
+        private async static Task EventArrived(
             StreamSubscription subscription,
             ResolvedEvent resolvedEvent,
             CancellationToken cancellationToken)
